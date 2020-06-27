@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>Drawing Lines</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+  <script>
+    window.addEventListener('load',init);
+    function init() {
+      // Specifying Size
+   const width=window.innerWidth;
+   const height=window.innerHeight;
+    let rot=0;
+    let mousex=0;
+   // Creating renderer
+   const renderer=new THREE.WebGLRenderer({
+     canvas: document.querySelector('#myCanvas'),
+     antialias:true
+   });
+   renderer.setSize(width,height);
+   // Create Scene
+   const scene=new THREE.Scene({});
+   scene.background=new THREE.Color(0xabd0ff);
+
+   //Create Camera
+   const camera=new THREE.PerspectiveCamera(45,width/height);
+// Near and Far is not used when it is used in lines
+   // Create Line
+   const lines=new THREE.Group();
+   const line_material=new THREE.LineBasicMaterial({color:0x122345});
+   for(let i=0;i<20;i++){
+     var line_geometry=new THREE.Geometry();
+     line_geometry.vertices.push(
+          new THREE.Vector3(0,0,0),
+          new THREE.Vector3(Math.random()*400-200,Math.random()*400-200,Math.random()*400-200),
+          new THREE.Vector3(Math.random()*400-200,Math.random()*400-200,Math.random()*400-200),
+          new THREE.Vector3(Math.random()*400-200,Math.random()*400-200,Math.random()*400-200),
+          new THREE.Vector3(Math.random()*800-400,Math.random()*400-200,Math.random()*800-400),
+          new THREE.Vector3(Math.random()*800-400,Math.random()*400-200,Math.random()*800-400),
+          new THREE.Vector3(Math.random()*400-200,Math.random()*4000-200,Math.random()*400-200)
+        );
+          var newline=new THREE.Line(line_geometry,line_material);
+          lines.add(newline);
+        }
+          scene.add(lines);
+
+          document.addEventListener('mousemove',(event)=>{
+            console.log(event.pageX);
+            mousex=(event.pageX-500)/5000;
+          })
+          tick();
+          // Loop Event executed ever frame
+          function tick() {
+            rot+=0.05+mousex;//Add 0.5 degrees for each frame angle
+            // Convert to radians
+            const radian=(rot*Math.PI)/180;
+            const radian2= ((rot+15)*Math.PI)/180;
+           lines.position.x=50*Math.sin(radian2);
+           lines.position.z=50*Math.cos(radian2);
+
+           // Set cmaera position according to anfle
+           camera.position.x=200*Math.sin(radian);
+           camera.position.z=200*Math.cos(radian);
+           // Starting at the position
+           camera.lookAt(new THREE.Vector3(1,10,0));
+           // Rendering the object
+           renderer.render(scene,camera);
+           requestAnimationFrame(tick);
+
+          }
+        }
+  </script>
+  </head>
+  <body style="margin:0;">
+   <canvas id="myCanvas"></canvas>
+   <div id="container" style="position:absolute; top:3vh; right:5vw; color:white; display:inline-block; font-size:calc(12px + 0.5vw); font-family:'Arial Black';">
+   </div>
+   <div id="container" style="position:absolute; top:40vh; left:5vw; color:white;">
+     <div id="ontext" style="position:relative; font-size:calc(10px + 5vw); font-family:'Arial Black';">Lines</div>
+     <div id="descri" style="position:relative; font-size:calc(8px + 0.5vw); font-family:'Arial Black';"> A Test For Using Line Constructer</div>
+   </div>
+ </body>
+</html>
