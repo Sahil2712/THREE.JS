@@ -1,0 +1,22 @@
+html,
+body {
+    margin: 0;
+}
+
+.cr {
+    font-family: -apple-system, Roboto, sans-serif;
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    color: #b2bec3;
+    font-size: .8rem;
+    bottom: 5%;
+    right: 5%;
+}
+
+.cr a {
+    text-decoration: none;
+    color: #636e72;
+    font-size: 0.5rem;
+    margin-top: 0.5rem;
+}
